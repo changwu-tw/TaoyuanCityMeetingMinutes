@@ -71,7 +71,7 @@ if __name__ == '__main__':
             if os.path.isfile(filename):
                 # new file
                 source = urllib.urlopen(path).read()
-                newname = filename[:filename.find('.')] + TODAY + '.pdf'
+                newname = filename[:filename.find('.')] + '_' + TODAY + '.pdf'
                 with open(newname, 'w') as f:
                     f.write(source)
                 # compare two files
