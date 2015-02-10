@@ -17,6 +17,7 @@ sys.setdefaultencoding("utf-8")
 
 BASE = 'http://www.tycg.gov.tw/ch/'
 TODAY = datetime.datetime.now(pytz.timezone('US/Central')).strftime('%Y%m%d')
+DIR_PATH = 'docs/'
 
 
 def isSameFile(file1, file2):
@@ -67,27 +68,30 @@ if __name__ == '__main__':
 
     for url in urlList:
         pdfList = getPdfUrl(url)
-        for (path, filename) in pdfList:
-            if os.path.isfile(filename):
+        for (urlpath, filename) in pdfList:
+            filepath = DIR_PATH + filename
+            if os.path.isfile(filepath):
                 # new file
-                source = urllib.urlopen(path).read()
+                source = urllib.urlopen(urlpath).read()
                 newname = filename[:filename.find('.')] + '_' + TODAY + '.pdf'
-                with open(newname, 'w') as f:
+                newpath = DIR_PATH+newname
+                with open(newpath, 'w') as f:
                     f.write(source)
                 # compare two files
-                if isSameFile(filename, newname):
-                    os.remove(newname)
+                if isSameFile(filepath, newpath):
+                    os.remove(newpath)
                 else:
                     textname = newname[:newname.find('.')] + '.txt'
-                    with open(textname, 'w') as f:
-                        f.write(extarctPdf(newname))
+                    with open(DIR_PATH+textname, 'w') as f:
+                        f.write(extarctPdf(newpath))
             else:
                 # pdf
-                source = urllib.urlopen(path).read()
-                with open(filename, 'w') as f:
+                source = urllib.urlopen(urlpath).read()
+                with open(filepath, 'w') as f:
                     f.write(source)
                 # txt
                 textname = filename[:filename.find('.')] + '.txt'
-                with open(textname, 'w') as f:
-                    f.write(extarctPdf(filename))
+                with open(DIR_PATH+textname, 'w') as f:
+                    f.write(extarctPdf(filepath))
+
 
