@@ -65,7 +65,8 @@ def getMeetingList():
 
 if __name__ == '__main__':
     urlList = getMeetingList()
-
+    print urlList
+    exit(0)
     for url in urlList:
         pdfList = getPdfUrl(url)
         for (urlpath, filename) in pdfList:
